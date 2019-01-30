@@ -1,3 +1,2 @@
 library(tidyverse)
-install.packages(gdata)
-library(gdata)
+turnout <- read.csv("./Turnout.csv")
