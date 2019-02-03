@@ -1,5 +1,4 @@
 rm(list = ls())
-library(gridExtra)
 turnout <- read.csv("./Turnout.csv",
                     na.strings = "",
                     stringsAsFactors = FALSE)
@@ -72,8 +71,11 @@ eumap = function(date) {
 "six" <- eumap(2004)
 "seven" <- eumap(2009)
 "eight" <- eumap(2014)
-install.packages("grid")
-png("./participation.png", height = 3500, width = 6000)
+library(grid)
+library(gridExtra)
+png("./participation.png", height = 4000, width = 6500)
 grid.arrange(one, two, three, four, five, six, seven, eight, nrow = 2, ncol = 4,
-             top = textGrob("Voter turnout in EU elections",gp=gpar(fontsize=20,font=3)))
+             top = textGrob("Voter turnout in EU elections",
+                            gp = gpar(fontsize = 150)))
 dev.off()
+# https://stackoverflow.com/questions/12041042/how-to-plot-just-the-legends-in-ggplot2
