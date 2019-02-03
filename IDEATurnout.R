@@ -79,3 +79,49 @@ grid.arrange(one, two, three, four, five, six, seven, eight, nrow = 2, ncol = 4,
                             gp = gpar(fontsize = 150)))
 dev.off()
 # https://stackoverflow.com/questions/12041042/how-to-plot-just-the-legends-in-ggplot2
+
+turnout %>%
+  filter(`year` %in% 2014) %>%
+  filter(type %in% "EU Parliament") %>%
+  select(`country`, `turnout`) %>%
+  rename(region = country) -> turnout
+world <- map_data("world")
+world %>%
+  mutate(`region` = recode(`region`, "UK" = "United Kingdom")) -> world
+tojoin <- data.frame(region = names(table(world$region)))
+all <- full_join(turnout, tojoin, by = "region")
+all %>%
+  arrange(`region`) -> all
+mapbig <- inner_join(world, all, by = "region")
+worldmap <- ggplot() + theme(
+  panel.background = element_rect(fill = "lightcyan1",
+                                  color = NA),
+  panel.grid = element_blank(),
+  axis.text.x = element_blank(),
+  axis.text.y = element_blank(),
+  axis.ticks = element_blank(),
+  axis.title.x = element_blank(),
+  axis.title.y = element_blank()
+)
+europe <- worldmap + coord_fixed(xlim = c(-9, 35),
+                                 ylim = c(36, 70.1),
+                                 ratio = 1.5)
+europe2 <- europe + geom_polygon(data = mapbig,
+                                 aes(fill = turnout,
+                                     x = long,
+                                     y = lat,
+                                     group = group),
+                                 color = "grey50") +
+  scale_fill_viridis_c(limits = c(13,93),
+                       option = "inferno",
+                       direction = -1,
+                       na.value = "grey70",
+                       breaks = c(0,10,20,30,40,50,60,70,80,90,100),
+                       guide = guide_colorbar(barheight = unit(150, units = "mm"),
+                                              barwidth = unit(10, units = "mm"),
+                                              title = ""
+                                    ))
+europe2
+library(ggpubr)
+legend <- get_legend(europe2)
+legend <- as_ggplot(legend)
