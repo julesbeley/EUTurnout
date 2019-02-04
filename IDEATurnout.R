@@ -1,4 +1,7 @@
 rm(list = ls())
+library(ggpubr)
+library(grid)
+library(gridExtra)
 turnout <- read.csv("./Turnout.csv",
                     na.strings = "",
                     stringsAsFactors = FALSE)
@@ -54,13 +57,13 @@ eumap = function(date) {
                                        x = long,
                                        y = lat,
                                        group = group),
-                                   color = "grey50") +
+                                   color = "grey30") +
     scale_fill_viridis_c(limits = c(13,93),
                          option = "inferno",
                          direction = -1,
                         guide = "none",
                         na.value = "grey70") +
-    annotate("text", -3, 68, label = as.character(date), size = 30)
+    annotate("text", -3, 68, label = as.character(date), size = 35)
   europe2
 }
 "one" <- eumap(1979)
@@ -71,14 +74,6 @@ eumap = function(date) {
 "six" <- eumap(2004)
 "seven" <- eumap(2009)
 "eight" <- eumap(2014)
-library(grid)
-library(gridExtra)
-png("./participation.png", height = 4000, width = 6500)
-grid.arrange(one, two, three, four, five, six, seven, eight, nrow = 2, ncol = 4,
-             top = textGrob("Voter turnout in EU elections",
-                            gp = gpar(fontsize = 150)))
-dev.off()
-# https://stackoverflow.com/questions/12041042/how-to-plot-just-the-legends-in-ggplot2
 
 turnout %>%
   filter(`year` %in% 2014) %>%
@@ -101,8 +96,11 @@ worldmap <- ggplot() + theme(
   axis.text.y = element_blank(),
   axis.ticks = element_blank(),
   axis.title.x = element_blank(),
-  axis.title.y = element_blank()
-)
+  axis.title.y = element_blank(),
+  legend.text = element_text(size = 100),
+  legend.spacing.x = unit(10, "mm"),
+  legend.title = element_text(size = 155)
+  )
 europe <- worldmap + coord_fixed(xlim = c(-9, 35),
                                  ylim = c(36, 70.1),
                                  ratio = 1.5)
@@ -116,12 +114,24 @@ europe2 <- europe + geom_polygon(data = mapbig,
                        option = "inferno",
                        direction = -1,
                        na.value = "grey70",
-                       breaks = c(0,10,20,30,40,50,60,70,80,90,100),
-                       guide = guide_colorbar(barheight = unit(150, units = "mm"),
-                                              barwidth = unit(10, units = "mm"),
-                                              title = ""
-                                    ))
-europe2
-library(ggpubr)
+                       breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+                       guide = guide_colorbar(barheight = unit(600, units = "mm"),
+                                              barwidth = unit(45, units = "mm"),
+                                              title = "%"))
 legend <- get_legend(europe2)
 legend <- as_ggplot(legend)
+lay <- rbind(c(NA, 1, 2, 3, 4, 9), c(NA, 5, 6, 7, 8, 9))
+png("./participation.png", height = 4300, width = 10000)
+grid.arrange(one, two, three, four, five, six, seven, eight, legend,
+             layout_matrix = lay,
+             top = textGrob("Voter turnout in EU elections",
+                            gp = gpar(fontsize = 200,
+                                      fontface = "bold",
+                                      vjust = 0)),
+             bottom = textGrob("Source: International IDEA. Computed by J. Beley.",
+                               gp = gpar(fontsize = 100,
+                                         fontface = 3),
+                               hjust = 0,
+                               vjust = 0,
+                               x = 0.61))
+dev.off()
