@@ -16,7 +16,7 @@ turnout %>%
      mutate(`Registration` = as.numeric(gsub(",", "", `Registration`))) %>%
      mutate(`Voting.age.population` = as.numeric(gsub(",", "", `Voting.age.population`))) %>%
      mutate(`Population` = as.numeric(gsub(",", "", `Population`))) %>%
-     rename(country =      ï..Country) %>%
+     rename(country =       ï..Country) %>%
      rename(type = Election.type) %>%
      rename(year = Year) %>%
      rename(turnout = Voter.Turnout) %>%
@@ -48,9 +48,9 @@ eumap = function(date) {
      mapbig <- inner_join(world, all, by = "region")
      
      worldmap <- ggplot() + theme(
-          panel.background = element_rect(fill = "lightcyan1",
+          panel.background = element_rect(fill = "white",
                                           color = NA),
-          panel.grid = element_line(colour = "royalblue1"),
+          panel.grid = element_line(colour = "royalblue"),
           axis.text.x = element_blank(),
           axis.text.y = element_blank(),
           axis.ticks = element_blank(),
@@ -81,7 +81,7 @@ eumap = function(date) {
           na.value = "grey70"
      )
      europe <-
-          europe + annotate("text",-10, 68, label = as.character(date), size = 35)
+          europe + annotate("text", -10, 68, label = as.character(date), size = 35)
 }
 
 "one" <- eumap(1979)
@@ -183,3 +183,66 @@ grid.arrange(
      )
 )
 dev.off()
+
+rm(list = ls())
+
+turnout <- read.csv("./Turnout.csv",
+                    na.strings = "",
+                    stringsAsFactors = FALSE)
+
+turnout %>%
+     mutate(`Year` = as.numeric(`Year`)) %>%
+     mutate(`Voter.Turnout` = parse_number(`Voter.Turnout`)) %>%
+     mutate(`Registration` = as.numeric(gsub(",", "", `Registration`))) %>%
+     mutate(`Voting.age.population` = as.numeric(gsub(",", "", `Voting.age.population`))) %>%
+     mutate(`Population` = as.numeric(gsub(",", "", `Population`))) %>%
+     rename(country =       ï..Country) %>%
+     rename(type = Election.type) %>%
+     rename(year = Year) %>%
+     rename(turnout = Voter.Turnout) %>%
+     rename(registered = Registration) %>%
+     rename(votingagepop = Voting.age.population) %>%
+     rename(population = Population) %>%
+     filter(`type` %in% "EU Parliament") %>%
+     filter(`country` %in% c(
+          "Belgium",
+          "Luxembourg",
+          "Italy",
+          "Germany",
+          "Ireland",
+          "France",
+          "Netherlands",
+          "Denmark",
+          "United Kingdom"
+     )) %>% 
+     arrange(desc(`turnout`)) -> turnout
+
+subset(turnout, `year` == 1979) %>% slice(2)
+
+col <- heat.colors(9)
+
+ggplot(turnout) + 
+     geom_line(aes(x = `year`, y = `turnout`, color = `country`), size = 1.6) +
+     geom_point(aes(x = `year`, y = `turnout`, color = `country`),
+                shape = 1,
+                size = 3) +
+     geom_text(
+          data = subset(turnout, `year` == "1979") %>% slice(c(seq(2, 9, 2))),
+          aes(
+               label = `country`,
+               colour = `country`,
+               x = `year` - 3,
+               y = `turnout`
+          )) +
+     geom_text(
+          data = subset(turnout, `year` == "2014") %>% slice(c(seq(1, 9, 2))),
+          aes(
+               label = `country`,
+               colour = `country`,
+               x = `year` + 3,
+               y = `turnout`
+          )) +
+     theme(axis.title.x=element_blank(),
+           axis.title.y = element_blank(),
+           panel.background = element_blank()) +
+     scale_color_viridis_d(9, guide = "none")
