@@ -217,32 +217,46 @@ turnout %>%
      )) %>% 
      arrange(desc(`turnout`)) -> turnout
 
-subset(turnout, `year` == 1979) %>% slice(2)
+subset(turnout, `year` == 1979)$country 
 
-col <- heat.colors(9)
-
-ggplot(turnout) + 
+graph <- ggplot(turnout) + 
      geom_line(aes(x = `year`, y = `turnout`, color = `country`), size = 1.6) +
      geom_point(aes(x = `year`, y = `turnout`, color = `country`),
                 shape = 1,
                 size = 3) +
      geom_text(
-          data = subset(turnout, `year` == "1979") %>% slice(c(seq(2, 9, 2))),
+          size = 8,
+          data = subset(turnout, `year` == "1979") %>% slice(c(seq(1, 9, 2))),
           aes(
                label = `country`,
                colour = `country`,
-               x = `year` - 3,
+               x = `year` - 5,
                y = `turnout`
           )) +
      geom_text(
-          data = subset(turnout, `year` == "2014") %>% slice(c(seq(1, 9, 2))),
+          size = 8,
+          data = subset(turnout, `year` == "2014") %>% slice(c(seq(2, 8, 2))),
           aes(
-               label = `country`,
-               colour = `country`,
-               x = `year` + 3,
+               label = `country`, # something wrong here, France is missing because 2014 order isn't the same
+               colour = `country`, # Netherlands twice
+               x = `year` + 5,
                y = `turnout`
           )) +
-     theme(axis.title.x=element_blank(),
-           axis.title.y = element_blank(),
-           panel.background = element_blank()) +
-     scale_color_viridis_d(9, guide = "none")
+     theme(
+          axis.text.x = element_text(size = 15),
+          axis.text.y = element_text(size = 17, color = "brown2"),
+          axis.title.y = element_blank(),
+          axis.title.x = element_blank(),
+          axis.ticks.x = element_blank(),
+          axis.ticks.y = element_blank(),
+          panel.background = element_blank(),
+          panel.grid.major.x = element_line(color = "grey"),
+          panel.grid.major.y = element_line(color = "brown2", linetype = 2)) +
+     scale_color_viridis_d(9, guide = "none", alpha = 0.7) +
+     scale_x_continuous(limits = c(1970, 2020), breaks = seq(1979, 2014, 5)) +
+     scale_y_continuous(breaks = c(25, 50, 75), labels = c("25%", "50%", "75%"))
+graph
+
+png("./graph.png", width = 1000, height = 400)
+graph
+dev.off()
