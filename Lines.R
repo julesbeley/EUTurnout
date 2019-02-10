@@ -1,6 +1,5 @@
 rm(list = ls())
 library(tidyverse)
-install.packages("RColorBrewer")
 library(RColorBrewer)
 
 turnout <- read.csv("./Turnout.csv",
@@ -62,7 +61,7 @@ graph <- ggplot(turnout) +
           )) +
      theme(
           plot.title = element_text(size = 30),
-          plot.caption = element_text(size = 15),
+          plot.caption = element_text(size = 15, face = 3),
           axis.text.x = element_text(size = 19, colour = "black"),
           axis.text.y = element_text(size = 19, colour = "black"),
           axis.title.y = element_blank(),

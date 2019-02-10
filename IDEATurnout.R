@@ -169,9 +169,9 @@ grid.arrange(
      layout_matrix = lay,
      top = textGrob(
           "Voter turnout in EU elections, 1979-2014",
-          gp = gpar(fontsize = 200,
-                    fontface = "bold"),
-          y = 0.5
+          gp = gpar(fontsize = 200),
+          y = 0.5,
+          x = 0.1
      ),
      bottom = textGrob(
           "Source: International IDEA. Computed by J. Beley (2018).",
@@ -182,81 +182,5 @@ grid.arrange(
           x = 0.575
      )
 )
-dev.off()
 
-rm(list = ls())
-
-turnout <- read.csv("./Turnout.csv",
-                    na.strings = "",
-                    stringsAsFactors = FALSE)
-
-turnout %>%
-     mutate(`Year` = as.numeric(`Year`)) %>%
-     mutate(`Voter.Turnout` = parse_number(`Voter.Turnout`)) %>%
-     mutate(`Registration` = as.numeric(gsub(",", "", `Registration`))) %>%
-     mutate(`Voting.age.population` = as.numeric(gsub(",", "", `Voting.age.population`))) %>%
-     mutate(`Population` = as.numeric(gsub(",", "", `Population`))) %>%
-     rename(country =       ï..Country) %>%
-     rename(type = Election.type) %>%
-     rename(year = Year) %>%
-     rename(turnout = Voter.Turnout) %>%
-     rename(registered = Registration) %>%
-     rename(votingagepop = Voting.age.population) %>%
-     rename(population = Population) %>%
-     filter(`type` %in% "EU Parliament") %>%
-     filter(`country` %in% c(
-          "Belgium",
-          "Luxembourg",
-          "Italy",
-          "Germany",
-          "Ireland",
-          "France",
-          "Netherlands",
-          "Denmark",
-          "United Kingdom"
-     )) %>% 
-     arrange(desc(`turnout`)) -> turnout
-
-subset(turnout, `year` == 1979)$country 
-
-graph <- ggplot(turnout) + 
-     geom_line(aes(x = `year`, y = `turnout`, color = `country`), size = 1.6) +
-     geom_point(aes(x = `year`, y = `turnout`, color = `country`),
-                shape = 1,
-                size = 3) +
-     geom_text(
-          size = 8,
-          data = subset(turnout, `year` == "1979") %>% slice(c(seq(1, 9, 2))),
-          aes(
-               label = `country`,
-               colour = `country`,
-               x = `year` - 5,
-               y = `turnout`
-          )) +
-     geom_text(
-          size = 8,
-          data = subset(turnout, `year` == "2014") %>% slice(c(seq(2, 8, 2))),
-          aes(
-               label = `country`, # something wrong here, France is missing because 2014 order isn't the same
-               colour = `country`, # Netherlands twice
-               x = `year` + 5,
-               y = `turnout`
-          )) +
-     theme(
-          axis.text.x = element_text(size = 15),
-          axis.text.y = element_text(size = 17, color = "brown2"),
-          axis.title.y = element_blank(),
-          axis.title.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          axis.ticks.y = element_blank(),
-          panel.background = element_blank(),
-          panel.grid.major.x = element_line(color = "grey"),
-          panel.grid.major.y = element_line(color = "brown2", linetype = 2)) +
-     scale_color_viridis_d(9, guide = "none", alpha = 0.7) +
-     scale_x_continuous(limits = c(1970, 2020), breaks = seq(1979, 2014, 5)) +
-     scale_y_continuous(breaks = c(25, 50, 75), labels = c("25%", "50%", "75%"))
-graph
-
-png("./graph.png", width = 1000, height = 400)
-graph
 dev.off()
