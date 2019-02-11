@@ -37,7 +37,7 @@ subset(turnout, `year` == 1979)$country
 
 
 graph <- ggplot(turnout) + 
-     geom_line(aes(x = `year`, y = `turnout`, color = `country`), size = 2.2) +
+     geom_line(aes(x = `year`, y = `turnout`, color = `country`), size = 1.9) +
      geom_point(aes(x = `year`, y = `turnout`, color = `country`),
                 shape = 1,
                 size = 6) +

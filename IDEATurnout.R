@@ -171,7 +171,7 @@ grid.arrange(
           "Voter turnout in EU elections, 1979-2014",
           gp = gpar(fontsize = 200),
           y = 0.5,
-          x = 0.1
+          x = 0.35
      ),
      bottom = textGrob(
           "Source: International IDEA. Computed by J. Beley (2018).",
