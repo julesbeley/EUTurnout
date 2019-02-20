@@ -36,12 +36,10 @@ turnout %>%
 turnout %>% 
      select(`country`, `year`, `turnout`, `registered`) %>% 
      arrange(desc(`year`)) %>% 
-     mutate(`voters` = round(`turnout` * `registered`)) -> turnout2
-
-
+     mutate(`voters` = round(`turnout` * `registered`)) -> turnout
 
 for (i in (seq(1979, 2014, 5))) {
-        turnout2 <- rbind(turnout2, 
+        turnout <- rbind(turnout, 
               data.frame(country = "EU9",
                          year = i,
                          turnout = round(sum(turnout2$voters[turnout2$year == i]) / sum(turnout2$registered[turnout2$year == i]), 2),
@@ -49,14 +47,27 @@ for (i in (seq(1979, 2014, 5))) {
                          voters = sum(turnout2$voters[turnout2$year == i])))
 }
 
+turnout %>% 
+     arrange(`year`) -> turnout
+
+subset(turnout, `year` != 1979)
+
 graph <- ggplot(turnout) + 
-     geom_line(aes(x = `year`, y = `turnout`, color = `country`), size = 1.6) +
-     geom_point(aes(x = `year`, y = `turnout`, color = `country`),
+     geom_line(data = subset(turnout, `country` != "EU9"), 
+               aes(x = `year`, y = `turnout`, color = `country`), size = 1.6) +
+     geom_point(data = subset(turnout, `country` != "EU9"),
+                aes(x = `year`, y = `turnout`, color = `country`),
+                shape = 19,
+                size = 6) +
+     geom_line(data = subset(turnout, `country` == "EU9"), 
+               aes(x = `year`, y = `turnout`, color = "black"), size = 1.6) +
+     geom_point(data = subset(turnout, `country` == "EU9"),
+                aes(x = `year`, y = `turnout`, color = "black"),
                 shape = 19,
                 size = 6) +
      geom_text(
           size = 8,
-          data = subset(turnout, `year` == "1979") %>% slice(c(1,3,5,8,9)),
+          data = subset(turnout, `year` == "1979", `country` != "EU9") %>% slice(c(1,3,5,8,9)),
           aes(
                label = `country`,
                colour = `country`,
@@ -65,7 +76,7 @@ graph <- ggplot(turnout) +
           )) +
      geom_text(
           size = 8,
-          data = subset(turnout, `year` == "2014") %>% slice(c(2,6,7,8)),
+          data = subset(turnout, `year` == "2014", `country` != "EU9") %>% slice(c(2,6,7,8)),
           aes(
                label = `country`, 
                colour = `country`, 
