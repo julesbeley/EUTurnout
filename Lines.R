@@ -35,13 +35,18 @@ turnout %>%
 
 turnout %>% 
      select(`country`, `year`, `turnout`, `registered`) %>% 
-     arrange(desc(`year`)) -> turnout2
+     arrange(desc(`year`)) %>% 
+     mutate(`voters` = round(`turnout` * `registered`)) -> turnout2
 
-total.registered <- c()
+
+
 for (i in (seq(1979, 2014, 5))) {
-     for (j in (1:dim(turnout2)[1])) {
-          total.registered[j] <- 
-     }
+        turnout2 <- rbind(turnout2, 
+              data.frame(country = "EU9",
+                         year = i,
+                         turnout = round(sum(turnout2$voters[turnout2$year == i]) / sum(turnout2$registered[turnout2$year == i]), 2),
+                         registered = sum(turnout2$registered[turnout2$year == i]),
+                         voters = sum(turnout2$voters[turnout2$year == i])))
 }
 
 graph <- ggplot(turnout) + 
