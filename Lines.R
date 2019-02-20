@@ -33,13 +33,21 @@ turnout %>%
      )) %>% 
      arrange(desc(`turnout`)) -> turnout
 
-subset(turnout, `year` == 1979)$country
+turnout %>% 
+     select(`country`, `year`, `turnout`, `registered`) %>% 
+     arrange(desc(`year`)) -> turnout2
 
+total.registered <- c()
+for (i in (seq(1979, 2014, 5))) {
+     for (j in (1:dim(turnout2)[1])) {
+          total.registered[j] <- 
+     }
+}
 
 graph <- ggplot(turnout) + 
      geom_line(aes(x = `year`, y = `turnout`, color = `country`), size = 1.6) +
      geom_point(aes(x = `year`, y = `turnout`, color = `country`),
-                shape = 1,
+                shape = 19,
                 size = 6) +
      geom_text(
           size = 8,
