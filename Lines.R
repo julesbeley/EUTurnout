@@ -110,7 +110,7 @@ graph <- ggplot(turnout) +
           panel.background = element_blank(),
           panel.grid.major.x = element_line(color = "grey"),
           panel.grid.major.y = element_line(color = "brown2", linetype = 2),
-          plot.margin = unit(c(1, 1, 1, 1), "cm")) +
+          plot.margin = unit(c(0.6, 1, 0.6, 1), "cm")) +
      scale_color_manual(guide = "none", values = pal, aesthetics = "colour") +
      scale_x_continuous(limits = c(1970, 2025), breaks = seq(1979, 2014, 5)) +
      scale_y_continuous(limits = c(0,100), labels = c("0%", "25%", "50%", "75%", "100%")) +
