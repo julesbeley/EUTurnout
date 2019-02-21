@@ -38,37 +38,37 @@ subset(turnout, `country` == "Average") -> turnout
 
 graph <- ggplot(turnout) + 
      geom_line(aes(x = `year`, y = `turnout`, color = `country`), 
-               size = 1.6) +
+               size = 3.2) +
      geom_point(aes(x = `year`, y = `turnout`, color = `country`),
                 shape = 19,
-                size = 5) +
-     geom_text(size = 8,
+                size = 10) +
+     geom_text(size = 16,
                aes(
                     label = `turnout`, 
                     colour = `country`, 
                     x = `year`,
-                    y = `turnout` - 7
+                    y = `turnout` - 5
                )) +
      theme(
-          plot.title = element_text(size = 30, hjust = 0.5, vjust = 5),
-          plot.caption = element_text(size = 15, face = 3, vjust = 0),
-          axis.text.x = element_text(size = 19, colour = "black"),
-          axis.text.y = element_text(size = 19, colour = "black"),
+          plot.title = element_text(size = 60, hjust = 0.5, vjust = 50),
+          plot.caption = element_text(size = 30, face = 3, vjust = -20),
+          axis.text.x = element_text(size = 38, colour = "black"),
+          axis.text.y = element_text(size = 38, colour = "black"),
           axis.title.y = element_blank(),
           axis.title.x = element_blank(),
           axis.ticks.x = element_blank(),
           axis.ticks.y = element_blank(),
           panel.background = element_blank(),
-          panel.grid.major.x = element_line(color = "grey"),
-          panel.grid.major.y = element_line(color = "brown2", linetype = 2),
-          plot.margin = unit(c(0.6, 1, 0.6, 1), "cm")) +
+          panel.grid.major.x = element_line(color = "grey", size = 1.3),
+          panel.grid.major.y = element_line(color = "brown2", linetype = 2, size = 1.3),
+          plot.margin = unit(c(4.5, 7.5, 4.5, 7.5), "cm")) +
      scale_color_manual(guide = "none", values = "dodgerblue4") +
      scale_x_continuous(limits = c(1970, 2025), breaks = seq(1979, 2014, 5)) +
      scale_y_continuous(limits = c(0,100), labels = c("0%", "25%", "50%", "75%", "100%")) +
      labs(title = "Average participation in EU elections since 1979",
-          caption = "Source: International IDEA. Computed by J. Beley (2018)")
+          caption = "Source: International IDEA. Computed by J. Beley (2019)")
 graph
 
-png("./Average.png", width = 1200, height = 700)
+png("./Average.png", width = 2400, height = 1400)
 graph
 dev.off()
