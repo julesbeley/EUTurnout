@@ -39,7 +39,7 @@ turnout %>%
 
 for (i in (seq(1979, 2014, 5))) {
         turnout <- rbind(turnout, 
-              data.frame(country = "Average",
+              data.frame(country = "EU9 Average",
                          year = i,
                          turnout = round(sum(turnout$voters[turnout$year == i]) / sum(turnout$registered[turnout$year == i]), 2),
                          registered = sum(turnout$registered[turnout$year == i]),
@@ -50,65 +50,68 @@ turnout %>%
      arrange(`year`) -> turnout
 
 pal <- brewer.pal(10, "Paired")
-pal[1] <- "#000000"
+pal[3] <- "#000000"
 
 graph <- ggplot(turnout) + 
-     geom_line(data = subset(turnout, `country` != "Average"), 
+     geom_line(data = subset(turnout, `country` != "EU9 Average"), 
                aes(x = `year`, y = `turnout`, color = `country`), 
-               size = 1.6,
+               size = 3.2,
                alpha = 0.7) +
-     geom_point(data = subset(turnout, `country` != "Average"),
+     geom_point(data = subset(turnout, `country` != "EU9 Average"),
                 aes(x = `year`, y = `turnout`, color = `country`),
                 shape = 19,
-                size = 5,
+                size = 10,
                 alpha = 0.7) +
-     geom_line(data = subset(turnout, `country` == "Average"), 
+     geom_line(data = subset(turnout, `country` == "EU9 Average"), 
                aes(x = `year`, y = `turnout`, color = `country`), 
-               size = 1.6,
+               size = 3.2,
                linetype = "dotted") +
-     geom_point(data = subset(turnout, `country` == "Average"),
+     geom_point(data = subset(turnout, `country` == "EU9 Average"),
                 aes(x = `year`, y = `turnout`, color = `country`),
                 shape = 19,
-                size = 5) +
+                size = 10) +
      geom_text(
-          size = 8,
-          data = subset(turnout, `year` == "1979") %>% slice(c(1,3,4,8,9)),
+          size = 16,
+          data = subset(turnout, `year` == "1979") %>% slice(c(1,3,4,6,9)),
           aes(
                label = `country`,
                colour = `country`,
-               x = `year` - 5,
-               y = `turnout`
+               x = `year` - 1.2,
+               y = `turnout`,
+               hjust = 1
           )) +
      geom_text(
-          size = 8,
+          size = 16,
           data = subset(turnout, `year` == "2014") %>% slice(c(2,5,7,8)),
           aes(
                label = `country`, 
                colour = `country`, 
-               x = `year` + 5,
-               y = `turnout`
+               x = `year` + 1.2,
+               y = `turnout`,
+               hjust = 0
           )) +
      geom_text(
-          size = 8,
-          data = subset(turnout, `year` == "2014" & `country` == "Average"),
+          size = 16,
+          data = subset(turnout, `year` == "2014" & `country` == "EU9 Average"),
           aes(
                label = `country`, 
                colour = `country`, 
-               x = `year` + 5,
-               y = `turnout`
+               x = `year` + 1.2,
+               y = `turnout`,
+               hjust = 0
           )) +
      theme(
-          plot.title = element_text(size = 30, hjust = 0.5, vjust = 10),
-          plot.caption = element_text(size = 15, face = 3, vjust = 0),
-          axis.text.x = element_text(size = 19, colour = "black"),
-          axis.text.y = element_text(size = 19, colour = "black"),
+          plot.title = element_text(size = 60, hjust = 0.5, vjust = 10),
+          plot.caption = element_text(size = 30, face = 3, vjust = 0),
+          axis.text.x = element_text(size = 38, colour = "black"),
+          axis.text.y = element_text(size = 38, colour = "black"),
           axis.title.y = element_blank(),
           axis.title.x = element_blank(),
           axis.ticks.x = element_blank(),
           axis.ticks.y = element_blank(),
           panel.background = element_blank(),
-          panel.grid.major.x = element_line(color = "grey"),
-          panel.grid.major.y = element_line(color = "brown2", linetype = 2),
+          panel.grid.major.x = element_line(color = "grey", size = 1.3),
+          panel.grid.major.y = element_line(color = "brown2", linetype = 2, size = 1.3),
           plot.margin = unit(c(0.6, 1, 0.6, 1), "cm")) +
      scale_color_manual(guide = "none", values = pal, aesthetics = "colour") +
      scale_x_continuous(limits = c(1970, 2025), breaks = seq(1979, 2014, 5)) +
@@ -117,6 +120,6 @@ graph <- ggplot(turnout) +
           caption = "Source: International IDEA. Computed by J. Beley (2018)")
 graph
 
-png("./graph.png", width = 1200, height = 700)
+png("./graph.png", width = 2400, height = 1400)
 graph
 dev.off()

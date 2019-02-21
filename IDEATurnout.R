@@ -149,7 +149,7 @@ europe <- europe + scale_fill_viridis_c(
           title = "%",
           title.hjust = 0.5,
           title.vjust = 1,
-          ticks.linewidth = 10,
+          ticks.linewidth = 6,
           title.position = "right"
      )
 )
