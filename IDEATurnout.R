@@ -183,7 +183,7 @@ grid.arrange(
                     fontface = 3),
           hjust = 0,
           vjust = 0,
-          x = 0.5
+          x = 0.5665
      ),
      heights = c(4,4,1),
      layout_matrix = lay
