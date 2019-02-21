@@ -120,7 +120,8 @@ worldmap <- ggplot() + theme(
      axis.title.y = element_blank(),
      legend.text = element_text(size = 100),
      legend.spacing.x = unit(10, "mm"),
-     legend.title = element_text(size = 155)
+     legend.title = element_text(size = 130),
+     legend.position = "bottom"
 )
 
 europe <- worldmap + coord_fixed(xlim = c(-9, 35),
@@ -137,24 +138,28 @@ europe <- europe + geom_polygon(data = mapbig,
                                 color = "grey50")
 
 europe <- europe + scale_fill_viridis_c(
-     limits = c(13, 93),
+     limits = c(0, 100),
      option = "plasma",
      direction = -1,
      na.value = "grey70",
      breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
      guide = guide_colorbar(
-          barheight = unit(600, units = "mm"),
-          barwidth = unit(45, units = "mm"),
-          title = "%"
+          barheight = unit(40, units = "mm"),
+          barwidth = unit(1000, units = "mm"),
+          title = "%",
+          title.hjust = 0.5,
+          title.vjust = 1,
+          ticks.linewidth = 10,
+          title.position = "right"
      )
 )
 
 legend <- get_legend(europe)
 legend <- as_ggplot(legend)
 
-lay <- rbind(c(NA, 1, 2, 3, 4, 9), c(NA, 5, 6, 7, 8, 9))
+lay <- rbind(c(1, 2, 3, 4), c(5, 6, 7, 8), c(NA, 9, 9, NA))
 
-png("./participation.png", height = 4200, width = 10000)
+png("./participation.png", height = 4200, width = 6000)
 
 grid.arrange(
      one,
@@ -166,12 +171,11 @@ grid.arrange(
      seven,
      eight,
      legend,
-     layout_matrix = lay,
      top = textGrob(
           "Voter turnout in EU elections, 1979-2014",
           gp = gpar(fontsize = 200),
           y = 0.5,
-          x = 0.35
+          x = 0.5
      ),
      bottom = textGrob(
           "Source: International IDEA. Computed by J. Beley (2018).",
@@ -179,8 +183,10 @@ grid.arrange(
                     fontface = 3),
           hjust = 0,
           vjust = 0,
-          x = 0.575
-     )
+          x = 0.5
+     ),
+     heights = c(4,4,1),
+     layout_matrix = lay
 )
 
 dev.off()
