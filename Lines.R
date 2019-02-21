@@ -30,8 +30,7 @@ turnout %>%
           "Netherlands",
           "Denmark",
           "United Kingdom"
-     )) %>% 
-     arrange(desc(`turnout`)) -> turnout
+     )) -> turnout
 
 turnout %>% 
      select(`country`, `year`, `turnout`, `registered`) %>% 
@@ -99,8 +98,8 @@ graph <- ggplot(turnout) +
                y = `turnout`
           )) +
      theme(
-          plot.title = element_text(size = 30),
-          plot.caption = element_text(size = 15, face = 3),
+          plot.title = element_text(size = 30, hjust = 0.5, vjust = 10),
+          plot.caption = element_text(size = 15, face = 3, vjust = 0),
           axis.text.x = element_text(size = 19, colour = "black"),
           axis.text.y = element_text(size = 19, colour = "black"),
           axis.title.y = element_blank(),
@@ -114,7 +113,7 @@ graph <- ggplot(turnout) +
      scale_color_manual(guide = "none", values = pal, aesthetics = "colour") +
      scale_x_continuous(limits = c(1970, 2025), breaks = seq(1979, 2014, 5)) +
      scale_y_continuous(limits = c(0,100), labels = c("0%", "25%", "50%", "75%", "100%")) +
-     labs(title = "Participation in EU elections since 1979 among 'the Nine'",
+     labs(title = "Participation in EU elections since 1979, EU9 countries",
           caption = "Source: International IDEA. Computed by J. Beley (2018)")
 graph
 
