@@ -157,7 +157,7 @@ europe <- europe + scale_fill_viridis_c(
 legend <- get_legend(europe)
 legend <- as_ggplot(legend)
 
-lay <- rbind(c(1, 2, 3, 4), c(5, 6, 7, 8), c(NA, 9, 9, NA))
+lay <- rbind(c(NA, NA, NA, NA), c(1, 2, 3, 4), c(5, 6, 7, 8), c(NA, 9, 9, NA))
 
 png("./participation.png", height = 4200, width = 6000)
 
@@ -185,7 +185,7 @@ grid.arrange(
           vjust = 0,
           x = 0.5665
      ),
-     heights = c(4,4,1),
+     heights = c(0.5,4,4,1),
      layout_matrix = lay
 )
 
