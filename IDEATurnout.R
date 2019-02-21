@@ -178,7 +178,7 @@ grid.arrange(
           x = 0.5
      ),
      bottom = textGrob(
-          "Source: International IDEA. Computed by J. Beley (2018).",
+          "Source: International IDEA. Computed by J. Beley (2019).",
           gp = gpar(fontsize = 100,
                     fontface = 3),
           hjust = 0,
