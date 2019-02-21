@@ -101,8 +101,8 @@ graph <- ggplot(turnout) +
                hjust = 0
           )) +
      theme(
-          plot.title = element_text(size = 60, hjust = 0.5, vjust = 10),
-          plot.caption = element_text(size = 30, face = 3, vjust = 0),
+          plot.title = element_text(size = 60, hjust = 0.5, vjust = 50),
+          plot.caption = element_text(size = 30, face = 3, vjust = -20),
           axis.text.x = element_text(size = 38, colour = "black"),
           axis.text.y = element_text(size = 38, colour = "black"),
           axis.title.y = element_blank(),
@@ -112,7 +112,7 @@ graph <- ggplot(turnout) +
           panel.background = element_blank(),
           panel.grid.major.x = element_line(color = "grey", size = 1.3),
           panel.grid.major.y = element_line(color = "brown2", linetype = 2, size = 1.3),
-          plot.margin = unit(c(0.6, 1, 0.6, 1), "cm")) +
+          plot.margin = unit(c(4.5, 7.5, 4.5, 7.5), "cm")) +
      scale_color_manual(guide = "none", values = pal, aesthetics = "colour") +
      scale_x_continuous(limits = c(1970, 2025), breaks = seq(1979, 2014, 5)) +
      scale_y_continuous(limits = c(0,100), labels = c("0%", "25%", "50%", "75%", "100%")) +
