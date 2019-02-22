@@ -162,7 +162,7 @@ lay <- rbind(c(NA, NA, NA, NA, NA, NA),
              c(NA, 5, 6, 7, 8, NA), 
              c(NA, NA, 9, 9, NA, NA))
 
-png("./participation.png", height = 4200, width = 6000)
+png("./participation.png", height = 4200, width = 6600)
 
 grid.arrange(
      one,
@@ -184,10 +184,11 @@ grid.arrange(
           "Source: International IDEA. Computed by J. Beley (2019).",
           gp = gpar(fontsize = 100,
                     fontface = 3),
-          rot = 90
+          rot = 90,
+          vjust = 0
      ),
      heights = c(0.5, 4, 4, 1),
-     widths = c(0.05, 1, 1, 1, 1, 0.05),
+     widths = c(0.07, 1, 1, 1, 1, 0.07),
      layout_matrix = lay
 )
 
