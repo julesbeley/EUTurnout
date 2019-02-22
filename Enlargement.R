@@ -20,3 +20,4 @@ ggbarplot(b, x = "years", y = "nms") +
      )
 
 table(b$nms)
+
