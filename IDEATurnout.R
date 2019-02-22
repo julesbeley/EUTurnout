@@ -176,7 +176,7 @@ grid.arrange(
      legend,
      top = textGrob(
           "Voter turnout in EU elections, 1979-2014",
-          gp = gpar(fontsize = 200),
+          gp = gpar(fontsize = 180),
           y = 0.5,
           x = 0.5
      ),
