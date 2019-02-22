@@ -60,7 +60,7 @@ p <- ggplot(enlarge, aes(ymin = 0)) +
      ) +
      scale_x_continuous(limits = c(1970, 2025), 
                         breaks = c(1979, 1981, 1986, 1995, 2004, 2007, 2013, 2014)) +
-     scale_y_continuous(limits = c(0,28), breaks = c(9, 10, 12, 15, 25, 27, 28)) +
+     scale_y_continuous(limits = c(0,28), breaks = c(0, 9, 10, 12, 15, 25, 27, 28)) +
      labs(title = "EU enlargements, 1979-2014",
           caption = "Source: International IDEA. Computed by J. Beley (2019)") +
      ylab("Number of member states")
