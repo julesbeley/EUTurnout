@@ -75,7 +75,7 @@ eumap = function(date) {
      )
      europe <- europe + scale_fill_viridis_c(
           limits = c(13, 93),
-          option = "plasma",
+          option = "magma",
           direction = -1,
           guide = "none",
           na.value = "grey70"
@@ -139,7 +139,7 @@ europe <- europe + geom_polygon(data = mapbig,
 
 europe <- europe + scale_fill_viridis_c(
      limits = c(0, 100),
-     option = "plasma",
+     option = "magma",
      direction = -1,
      na.value = "grey70",
      breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
