@@ -157,7 +157,10 @@ europe <- europe + scale_fill_viridis_c(
 legend <- get_legend(europe)
 legend <- as_ggplot(legend)
 
-lay <- rbind(c(NA, NA, NA, NA), c(1, 2, 3, 4), c(5, 6, 7, 8), c(NA, 9, 9, NA))
+lay <- rbind(c(NA, NA, NA, NA, NA, NA), 
+             c(NA, 1, 2, 3, 4, NA), 
+             c(NA, 5, 6, 7, 8, NA), 
+             c(NA, NA, 9, 9, NA, NA))
 
 png("./participation.png", height = 4200, width = 6000)
 
@@ -177,15 +180,14 @@ grid.arrange(
           y = 0.5,
           x = 0.5
      ),
-     bottom = textGrob(
+     right = textGrob(
           "Source: International IDEA. Computed by J. Beley (2019).",
           gp = gpar(fontsize = 100,
                     fontface = 3),
-          hjust = 0,
-          vjust = 0,
-          x = 0.5665
+          rot = 90
      ),
-     heights = c(0.5,4,4,1),
+     heights = c(0.5, 4, 4, 1),
+     widths = c(0.05, 1, 1, 1, 1, 0.05),
      layout_matrix = lay
 )
 
