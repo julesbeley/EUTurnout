@@ -12,7 +12,8 @@ rbind(
 ) -> b
 
 b <- data.frame(years = c(1979:2013),
-                nms = as.vector(b))
+                nms = as.vector(b),
+                stringsAsFactors = FALSE)
 
 enlarge <- c()
 enlarge[1] <- 1979

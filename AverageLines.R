@@ -66,7 +66,7 @@ graph <- ggplot(turnout) +
      scale_x_continuous(limits = c(1970, 2025), breaks = seq(1979, 2014, 5)) +
      scale_y_continuous(limits = c(0,100), labels = c("0%", "25%", "50%", "75%", "100%")) +
      labs(title = "Average participation in EU elections since 1979",
-          caption = "Source: International IDEA. Computed by J. Beley (2019)")
+          caption = "Source: International IDEA. Computed by J. Beley (2019)") 
 graph
 
 png("./Average.png", width = 2400, height = 1400)
