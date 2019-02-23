@@ -55,7 +55,10 @@ left_join(turnout, b, by = "year") -> m
 m
 plot <- ggplot(m, aes(x = nms, y = turnout)) +
      geom_point(size = 6) +
-     geom_smooth(method = "lm", fill = "dodgerblue4", colour = "brown2") + 
+     geom_smooth(method = "lm", 
+                 fill = "dodgerblue4", 
+                 colour = "brown2",
+                 alpha = 0.3) + 
      geom_text(data = m %>% slice(seq(1, 8, 2)),
                size = 13, 
                aes(label = year, x = nms, y = turnout + 1)) +
