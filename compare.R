@@ -20,42 +20,40 @@ turnout %>%
      rename(votingagepop = Voting.age.population) %>%
      rename(population = Population) %>%
      select(`type`, `country`, `year`, `turnout`, `registered`) %>%
-     mutate(`voters` = round(`turnout` * `registered`)) -> turnout
-
-turnout
+     mutate(`voters` = round(0.01 * `turnout` * `registered`)) -> turnout
 
 n <- ggplot(turnout) +
      geom_point(data = turnout %>% filter(type == "Parliamentary"), 
-                aes(x = year, y = turnout),
-                size = 4,
-                alpha = 0.5) +
+                aes(x = year, y = turnout, size = voters),
+                alpha = 0.7,
+                show.legend = FALSE) +
      geom_point(data = turnout %>% filter(type == "EU Parliament"), 
-                aes(x = year, y = turnout),
+                aes(x = year, y = turnout, size = voters),
                 color = "dodgerblue4",
-                size = 4,
-                alpha = 0.5) +
+                alpha = 0.7,
+                show.legend = FALSE) +
      geom_smooth(data = turnout %>% filter(type == "Parliamentary"),
-                 aes(x = year, y = turnout),
+                 aes(x = year, y = turnout, weight = voters),
                  method = "lm", 
                  colour = "black",
                  alpha = 0.3) +
      geom_smooth(data = turnout %>% filter(type == "EU Parliament"),
-                 aes(x = year, y = turnout),
+                 aes(x = year, y = turnout, weight = voters),
                  method = "lm", 
                  colour = "dodgerblue4",
                  alpha = 0.3) +
      theme(
-          plot.title = element_text(size = 50, hjust = 0.5, vjust = 30),
-          plot.caption = element_text(size = 30, face = 3, vjust = -40),
-          axis.text.x = element_text(size = 30, colour = "black"),
-          axis.text.y = element_text(size = 30, colour = "black"),
+          plot.title = element_text(size = 40, hjust = 0.5, vjust = 30),
+          plot.caption = element_text(size = 20, face = 3, vjust = -20),
+          axis.text.x = element_text(size = 23, colour = "black"),
+          axis.text.y = element_text(size = 23, colour = "black"),
           axis.title.x = element_blank(),
           axis.title.y = element_text(size = 38, colour = "black", vjust = 25),
           axis.ticks.x = element_blank(),
           axis.ticks.y = element_blank(),
           panel.background = element_blank(),
-          panel.grid.major.x = element_line(color = "grey", size = 1.3),
-          panel.grid.major.y = element_line(color = "grey", size = 1.3),
+          panel.grid.major.x = element_line(color = "grey", size = 1),
+          panel.grid.major.y = element_line(color = "grey", size = 1),
           plot.margin = unit(c(4.5, 7.5, 4.5, 7.5), "cm")) +
      labs(title = "Turnout in EU and national parliamentary 
 elections with trend lines, 1979-2014",
@@ -68,7 +66,16 @@ png("./compare.png", width = 1600, height = 1000)
 n
 dev.off()
 
-lm(data = turnout %>% filter(type == "EU Parliament"), turnout ~ year) -> modelEU
-lm(data = turnout %>% filter(type == "Parliamentary"), turnout ~ year) -> modelNat
+modelEU <- lm(
+     data = turnout %>% filter(type == "EU Parliament"),
+     formula = turnout ~ year,
+     weights = voters
+) 
+modelNat <- lm(
+     data = turnout %>% filter(type == "Parliamentary"),
+     formula = turnout ~ year,
+     weights = voters
+)  
 summary(modelEU)
 summary(modelNat)
+
