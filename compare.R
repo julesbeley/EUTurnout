@@ -25,6 +25,7 @@ turnout %>%
 n <- ggplot(turnout) +
      geom_point(data = turnout %>% filter(type == "Parliamentary"), 
                 aes(x = year, y = turnout, size = voters),
+                color = "brown2",
                 alpha = 0.7,
                 show.legend = FALSE) +
      geom_point(data = turnout %>% filter(type == "EU Parliament"), 
@@ -35,7 +36,7 @@ n <- ggplot(turnout) +
      geom_smooth(data = turnout %>% filter(type == "Parliamentary"),
                  aes(x = year, y = turnout, weight = voters),
                  method = "lm", 
-                 colour = "black",
+                 colour = "brown2",
                  alpha = 0.3) +
      geom_smooth(data = turnout %>% filter(type == "EU Parliament"),
                  aes(x = year, y = turnout, weight = voters),
