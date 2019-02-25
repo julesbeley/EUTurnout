@@ -23,16 +23,16 @@ turnout %>%
      mutate(`voters` = round(0.01 * `turnout` * `registered`)) -> turnout
 
 n <- ggplot(turnout) +
-     geom_point(data = turnout %>% filter(type == "Parliamentary"), 
-                aes(x = year, y = turnout, size = voters),
-                color = "brown2",
-                alpha = 0.7,
-                show.legend = FALSE) +
-     geom_point(data = turnout %>% filter(type == "EU Parliament"), 
-                aes(x = year, y = turnout, size = voters),
-                color = "dodgerblue4",
-                alpha = 0.7,
-                show.legend = FALSE) +
+     geom_point(aes(x = year, y = turnout, size = voters, color = type),
+                alpha = 0.7) +
+     scale_color_manual(values = c("Parliamentary" = "brown2",
+                                   "EU Parliament" = "dodgerblue4"),
+                        labels = c("National",
+                                   "EU"),
+                        breaks = c("Parliamentary", "EU Parliament")) +
+     guides(size = FALSE,
+            color = guide_legend(title = "Type", 
+                                 override.aes = list(size = 7))) +
      geom_smooth(data = turnout %>% filter(type == "Parliamentary"),
                  aes(x = year, y = turnout, weight = voters),
                  method = "lm", 
@@ -55,7 +55,10 @@ n <- ggplot(turnout) +
           panel.background = element_blank(),
           panel.grid.major.x = element_line(color = "grey", size = 1),
           panel.grid.major.y = element_line(color = "grey", size = 1),
-          plot.margin = unit(c(4.5, 7.5, 4.5, 7.5), "cm")) +
+          plot.margin = unit(c(4.5, 7.5, 4.5, 7.5), "cm"),
+          legend.title = element_text(size = 20),
+          legend.text = element_text(size = 20),
+          legend.key = element_rect(fill = "white")) +
      labs(title = "Turnout in EU and national parliamentary 
 elections with trend lines, 1979-2014",
           caption = "Source: International IDEA. Computed by J. Beley (2019)") +
