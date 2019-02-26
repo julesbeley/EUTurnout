@@ -76,13 +76,19 @@ rbind(EE1, EE2, EE3, EE4, EE5, EE6, EE7, EE8, EE9, EE10, EE11, EE12, EE13) -> EE
 
 dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1]
 
-matrix(ncol = 1, nrow = dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1], 1628)
+length = dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1]
+
+matrix(ncol = 1, nrow = dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1], 1628) -> u
+
+cbind(as.data.frame(concaveman::concaveman(as.matrix(EE))), 
+      as.vector(u), 
+      seq(from = 100965, to = 100965 + length - 1),
+      matrix(ncol = 1, nrow = length, "East Germany"),
+      matrix(ncol = 1, nrow = length, NA)) -> EG
 
 world <- map_data("world")
-cbind(as.data.frame(concaveman::concaveman(as.matrix(EE))), 
-      as.vector(matrix(ncol = 1, nrow = dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1], 1628)), 
-      100965:100965 + dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1])
-
+colnames(EG) <- colnames(world)
+end <- rbind(world, EG)
 
 eumap = function(date) {
      library(tidyverse)
