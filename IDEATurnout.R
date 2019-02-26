@@ -31,19 +31,8 @@ eastgermany2 <- read_sf("Berlin_AL6.geojson")
 eastgermany <- rbind(eastgermany1, eastgermany2)
 east <- list()
 for (i in (1:dim(eastgermany)[1])) {
-     east[[i]] <- eastgermany[i,]
+     east[[i]] <- eastgermany[i,] 
 }
-
-as.data.frame(concaveman::concaveman(as.matrix(EE)))
-
-ggplot(as.data.frame(concaveman::concaveman(as.matrix(EE)))) +
-     geom_polygon(aes(x = V1, y = V2)) +
-     coord_map(
-          "lambert",
-          parameters = c(30, 43)
-     ) +
-     theme_void()
-
 EE1 <- as.data.frame(east[[1]]$geometry[[1]][[1]])
 EE2 <- as.data.frame(east[[2]]$geometry[[1]][[1]][[1]])
 EE3 <- as.data.frame(east[[3]]$geometry[[1]][[1]])
@@ -74,21 +63,14 @@ colnames(EE13) = c("x", "y")
 
 rbind(EE1, EE2, EE3, EE4, EE5, EE6, EE7, EE8, EE9, EE10, EE11, EE12, EE13) -> EE
 
-dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1]
-
-length = dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1]
-
-matrix(ncol = 1, nrow = dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1], 1628) -> u
+length <- dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1]
+u <- matrix(ncol = 1, nrow = dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1], 1628) 
 
 cbind(as.data.frame(concaveman::concaveman(as.matrix(EE))), 
       as.vector(u), 
       seq(from = 100965, to = 100965 + length - 1),
       matrix(ncol = 1, nrow = length, "East Germany"),
       matrix(ncol = 1, nrow = length, NA)) -> EG
-
-world <- map_data("world")
-colnames(EG) <- colnames(world)
-end <- rbind(world, EG)
 
 eumap = function(date) {
      library(tidyverse)
@@ -103,60 +85,10 @@ eumap = function(date) {
           rename(region = country) -> turnout
      
      if (date < 1994) {
-          library(sf)
-          eastgermany1 <- read_sf("Berlin_AL4.geojson")
-          eastgermany2 <- read_sf("Berlin_AL6.geojson")
-          eastgermany <- rbind(eastgermany1, eastgermany2)
-          east <- list()
-          for (i in (1:dim(eastgermany)[1])) {
-               east[[i]] <- eastgermany[i,] 
-          }
-          EE1 <- as.data.frame(east[[1]]$geometry[[1]][[1]])
-          EE2 <- as.data.frame(east[[2]]$geometry[[1]][[1]][[1]])
-          EE3 <- as.data.frame(east[[3]]$geometry[[1]][[1]])
-          EE4 <- as.data.frame(east[[4]]$geometry[[1]][[1]][[1]])
-          EE5 <- as.data.frame(east[[5]]$geometry[[1]][[1]][[1]])
-          EE6 <- as.data.frame(east[[6]]$geometry[[1]][[1]][[1]])
-          EE7 <- as.data.frame(east[[7]]$geometry[[1]][[1]])
-          EE8 <- as.data.frame(east[[8]]$geometry[[1]][[1]])
-          EE9 <- as.data.frame(east[[9]]$geometry[[1]][[1]])
-          EE10 <- as.data.frame(east[[10]]$geometry[[1]][[1]])
-          EE11 <- as.data.frame(east[[11]]$geometry[[1]][[1]][[1]])
-          EE12 <- as.data.frame(east[[12]]$geometry[[1]][[1]])
-          EE13 <- as.data.frame(east[[13]]$geometry[[1]][[1]][[1]])
-          
-          colnames(EE1) = c("x", "y")
-          colnames(EE2) = c("x", "y")
-          colnames(EE3) = c("x", "y")
-          colnames(EE4) = c("x", "y")
-          colnames(EE5) = c("x", "y")
-          colnames(EE6) = c("x", "y")
-          colnames(EE7) = c("x", "y")
-          colnames(EE8) = c("x", "y")
-          colnames(EE9) = c("x", "y")
-          colnames(EE10) = c("x", "y")
-          colnames(EE11) = c("x", "y")
-          colnames(EE12) = c("x", "y")
-          colnames(EE13) = c("x", "y")
-          
-          rbind(EE1, EE2, EE3, EE4, EE5, EE6, EE7, EE8, EE9, EE10, EE11, EE12, EE13) -> EE
-          
-          dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1]
-          
-          length = dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1]
-          
-          matrix(ncol = 1, nrow = dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1], 1628) -> u
-          
-          cbind(as.data.frame(concaveman::concaveman(as.matrix(EE))), 
-                as.vector(u), 
-                seq(from = 100965, to = 100965 + length - 1),
-                matrix(ncol = 1, nrow = length, "East Germany"),
-                matrix(ncol = 1, nrow = length, NA)) -> EG
-          
           world <- map_data("world")
           colnames(EG) <- colnames(world)
           end <- rbind(world, EG)
-          world %>%
+          end %>%
                mutate(`region` = recode(`region`, "UK" = "United Kingdom")) -> world
           
           tojoin <- data.frame(region = names(table(world$region)))
@@ -192,7 +124,7 @@ eumap = function(date) {
                color = "grey30"
           )
           europe <- europe + scale_fill_viridis_c(
-               limits = c(13, 93),
+               limits = c(0, 100),
                option = "magma",
                direction = -1,
                guide = "none",
@@ -239,7 +171,7 @@ eumap = function(date) {
           color = "grey30"
      )
      europe <- europe + scale_fill_viridis_c(
-          limits = c(13, 93),
+          limits = c(0, 100),
           option = "magma",
           direction = -1,
           guide = "none",
