@@ -26,19 +26,62 @@ turnout %>%
      arrange(`year`) -> turnout
 
 library(sf)
-eastgermany <- read_sf("C:/Users/jules/Documents/Hamburg Bars/Limits.geojson")
+eastgermany1 <- read_sf("Berlin_AL4.geojson")
+eastgermany2 <- read_sf("Berlin_AL6.geojson")
+eastgermany <- rbind(eastgermany1, eastgermany2)
+east <- list()
+for (i in (1:dim(eastgermany)[1])) {
+     east[[i]] <- eastgermany[i,]
+}
 
-as.data.frame(eastgermany$geometry[[1]][[1]]) 
+as.data.frame(concaveman::concaveman(as.matrix(EE)))
 
-ggplot(as.data.frame(eastgermany$geometry[[2]][[1]])) +
-     geom_polygon(aes(x = X1, y = X2)) +
+ggplot(as.data.frame(concaveman::concaveman(as.matrix(EE)))) +
+     geom_polygon(aes(x = V1, y = V2)) +
      coord_map(
           "lambert",
           parameters = c(30, 43)
-     )
+     ) +
+     theme_void()
 
-map_data("world") -> world
+EE1 <- as.data.frame(east[[1]]$geometry[[1]][[1]])
+EE2 <- as.data.frame(east[[2]]$geometry[[1]][[1]][[1]])
+EE3 <- as.data.frame(east[[3]]$geometry[[1]][[1]])
+EE4 <- as.data.frame(east[[4]]$geometry[[1]][[1]][[1]])
+EE5 <- as.data.frame(east[[5]]$geometry[[1]][[1]][[1]])
+EE6 <- as.data.frame(east[[6]]$geometry[[1]][[1]][[1]])
+EE7 <- as.data.frame(east[[7]]$geometry[[1]][[1]])
+EE8 <- as.data.frame(east[[8]]$geometry[[1]][[1]])
+EE9 <- as.data.frame(east[[9]]$geometry[[1]][[1]])
+EE10 <- as.data.frame(east[[10]]$geometry[[1]][[1]])
+EE11 <- as.data.frame(east[[11]]$geometry[[1]][[1]][[1]])
+EE12 <- as.data.frame(east[[12]]$geometry[[1]][[1]])
+EE13 <- as.data.frame(east[[13]]$geometry[[1]][[1]][[1]])
 
+colnames(EE1) = c("x", "y")
+colnames(EE2) = c("x", "y")
+colnames(EE3) = c("x", "y")
+colnames(EE4) = c("x", "y")
+colnames(EE5) = c("x", "y")
+colnames(EE6) = c("x", "y")
+colnames(EE7) = c("x", "y")
+colnames(EE8) = c("x", "y")
+colnames(EE9) = c("x", "y")
+colnames(EE10) = c("x", "y")
+colnames(EE11) = c("x", "y")
+colnames(EE12) = c("x", "y")
+colnames(EE13) = c("x", "y")
+
+rbind(EE1, EE2, EE3, EE4, EE5, EE6, EE7, EE8, EE9, EE10, EE11, EE12, EE13) -> EE
+
+dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1]
+
+matrix(ncol = 1, nrow = dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1], 1628)
+
+world <- map_data("world")
+cbind(as.data.frame(concaveman::concaveman(as.matrix(EE))), 
+      as.vector(matrix(ncol = 1, nrow = dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1], 1628)), 
+      100965:100965 + dim(as.data.frame(concaveman::concaveman(as.matrix(EE))))[1])
 
 
 eumap = function(date) {
@@ -89,9 +132,6 @@ eumap = function(date) {
           ),
           color = "grey30"
      )
-     #if (date < 1994) {
-          europe <- europe + geom_polygon()
-     #}
      europe <- europe + scale_fill_viridis_c(
           limits = c(13, 93),
           option = "magma",
@@ -99,6 +139,49 @@ eumap = function(date) {
           guide = "none",
           na.value = "grey70"
      )
+     library(sf)
+     eastgermany1 <- read_sf("Berlin_AL4.geojson")
+     eastgermany2 <- read_sf("Berlin_AL6.geojson")
+     eastgermany <- rbind(eastgermany1, eastgermany2)
+     east <- list()
+     for (i in (1:dim(eastgermany)[1])) {
+          east[[i]] <- eastgermany[i,]
+     }
+     if (date < 1994) {
+          EE1 <- as.data.frame(east[[1]]$geometry[[1]][[1]])
+          EE2 <- as.data.frame(east[[2]]$geometry[[1]][[1]][[1]])
+          EE3 <- as.data.frame(east[[3]]$geometry[[1]][[1]])
+          EE4 <- as.data.frame(east[[4]]$geometry[[1]][[1]][[1]])
+          EE5 <- as.data.frame(east[[5]]$geometry[[1]][[1]][[1]])
+          EE6 <- as.data.frame(east[[6]]$geometry[[1]][[1]][[1]])
+          EE7 <- as.data.frame(east[[7]]$geometry[[1]][[1]])
+          EE8 <- as.data.frame(east[[8]]$geometry[[1]][[1]])
+          EE9 <- as.data.frame(east[[9]]$geometry[[1]][[1]])
+          EE10 <- as.data.frame(east[[10]]$geometry[[1]][[1]])
+          EE11 <- as.data.frame(east[[11]]$geometry[[1]][[1]][[1]])
+          EE12 <- as.data.frame(east[[12]]$geometry[[1]][[1]])
+          EE13 <- as.data.frame(east[[13]]$geometry[[1]][[1]][[1]])
+          
+          colnames(EE1) = c("x", "y")
+          colnames(EE2) = c("x", "y")
+          colnames(EE3) = c("x", "y")
+          colnames(EE4) = c("x", "y")
+          colnames(EE5) = c("x", "y")
+          colnames(EE6) = c("x", "y")
+          colnames(EE7) = c("x", "y")
+          colnames(EE8) = c("x", "y")
+          colnames(EE9) = c("x", "y")
+          colnames(EE10) = c("x", "y")
+          colnames(EE11) = c("x", "y")
+          colnames(EE12) = c("x", "y")
+          colnames(EE13) = c("x", "y")
+          
+          rbind(EE1, EE2, EE3, EE4, EE5, EE6, EE7, EE8, EE9, EE10, EE11, EE12, EE13) -> EE
+          
+          europe <- europe + 
+               geom_polygon(data = as.data.frame(concaveman::concaveman(as.matrix(EE))),
+                            aes(x = V1, y = V2))
+     }
      europe <- europe + annotate("text", -10, 68, label = as.character(date), size = 35)
 }
 
