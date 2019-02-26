@@ -73,6 +73,9 @@ eumap = function(date) {
           ),
           color = "grey30"
      )
+     #if (date < 1994) {
+          
+     #}
      europe <- europe + scale_fill_viridis_c(
           limits = c(13, 93),
           option = "magma",
@@ -80,8 +83,7 @@ eumap = function(date) {
           guide = "none",
           na.value = "grey70"
      )
-     europe <-
-          europe + annotate("text", -10, 68, label = as.character(date), size = 35)
+     europe <- europe + annotate("text", -10, 68, label = as.character(date), size = 35)
 }
 
 "one" <- eumap(1979)
@@ -193,3 +195,6 @@ grid.arrange(
 )
 
 dev.off()
+
+
+curl -f -o eastgermany.zip --url "https://wambachers-osm.website/boundaries/exportBoundaries?cliVersion=1.0&cliKey=6f4b0380-1ef1-4cdf-ae75-0ce88e32e15a&exportFormat=json&exportLayout=levels&exportAreas=water&union=false&selected=62422,62504,1739381,1739376,1739380,62405,1739377,62685,1431517,1739379,62607,62467,62366"
