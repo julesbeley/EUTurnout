@@ -25,6 +25,18 @@ turnout %>%
      rename(population = Population) %>%
      arrange(`year`) -> turnout
 
+library(sf)
+eastgermany <- read_sf("C:/Users/jules/Documents/Hamburg Bars/Limits.geojson")
+
+as.data.frame(eastgermany$geometry[[1]][[1]]) 
+
+ggplot(as.data.frame(eastgermany$geometry[[2]][[1]])) +
+     geom_polygon(aes(x = X1, y = X2))
+
+map_data("world") -> world
+
+
+
 eumap = function(date) {
      library(tidyverse)
      library(maps)
@@ -74,7 +86,7 @@ eumap = function(date) {
           color = "grey30"
      )
      #if (date < 1994) {
-          
+          europe <- europe + geom_polygon()
      #}
      europe <- europe + scale_fill_viridis_c(
           limits = c(13, 93),
