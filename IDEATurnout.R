@@ -31,7 +31,11 @@ eastgermany <- read_sf("C:/Users/jules/Documents/Hamburg Bars/Limits.geojson")
 as.data.frame(eastgermany$geometry[[1]][[1]]) 
 
 ggplot(as.data.frame(eastgermany$geometry[[2]][[1]])) +
-     geom_polygon(aes(x = X1, y = X2))
+     geom_polygon(aes(x = X1, y = X2)) +
+     coord_map(
+          "lambert",
+          parameters = c(30, 43)
+     )
 
 map_data("world") -> world
 
