@@ -61,19 +61,13 @@ colnames(patch) <- c("x", "y")
 EE <- rbind(EE, patch) 
 
 length <- dim(as.data.frame(concaveman::concaveman(as.matrix(EE), concavity = 1)))[1]
-u <- matrix(ncol = 1, nrow = length, 1628) 
+u <- matrix(ncol = 1, nrow = length, 1628)
 
 cbind(as.data.frame(concaveman::concaveman(as.matrix(EE), concavity = 1)), 
       as.vector(u), 
       seq(from = 100965, to = 100965 + length - 1),
       matrix(ncol = 1, nrow = length, "East Germany"),
       matrix(ncol = 1, nrow = length, NA)) -> EG
-
-ggplot(EG) +
-     geom_polygon(aes(x = V1, y = V2)) +
-     coord_map(
-          "lambert",
-          parameters = c(30, 43))
 
 eumap = function(date) {
      library(tidyverse)
@@ -184,14 +178,11 @@ eumap = function(date) {
      }
 }
 
-"one" <- eumap(1979)
-"two" <- eumap(1984)
-"three" <- eumap(1989)
-"four" <- eumap(1994)
-"five" <- eumap(1999)
-"six" <- eumap(2004)
-"seven" <- eumap(2009)
-"eight" <- eumap(2014)
+plots <- list()
+
+for (i in (seq(from = 1979, to = 2014, by = 5))) {
+     plots[[(i - 1974) / 5]] <- eumap(i)
+}
 
 turnout %>%
      filter(`year` %in% 2014) %>%
@@ -265,14 +256,14 @@ lay <- rbind(c(NA, NA, NA, NA, NA, NA),
 png("./participation.png", height = 4200, width = 6600)
 
 grid.arrange(
-     one,
-     two,
-     three,
-     four,
-     five,
-     six,
-     seven,
-     eight,
+     plots[[1]],
+     plots[[2]],
+     plots[[3]],
+     plots[[4]],
+     plots[[5]],
+     plots[[6]],
+     plots[[7]],
+     plots[[8]],
      legend,
      top = textGrob(
           "Voter turnout in EU elections, 1979-2014",
