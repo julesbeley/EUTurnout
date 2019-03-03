@@ -235,7 +235,7 @@ europe <- europe + scale_fill_viridis_c(
      )
 )
 
-legend <- as_ggplot(get_legend(europe))
+plots[[9]] <- as_ggplot(get_legend(europe))
 
 lay <- rbind(c(NA, NA, NA, NA, NA, NA), 
              c(NA, 1, 2, 3, 4, NA), 
@@ -245,15 +245,7 @@ lay <- rbind(c(NA, NA, NA, NA, NA, NA),
 png("./participation.png", height = 4200, width = 6600)
 
 grid.arrange(
-     plots[[1]],
-     plots[[2]],
-     plots[[3]],
-     plots[[4]],
-     plots[[5]],
-     plots[[6]],
-     plots[[7]],
-     plots[[8]],
-     legend,
+     grobs = plots,
      top = textGrob(
           "Voter turnout in EU elections, 1979-2014",
           gp = gpar(fontsize = 180),
