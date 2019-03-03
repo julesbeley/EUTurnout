@@ -80,7 +80,16 @@ eumap = function(date) {
           filter(type %in% "EU Parliament") %>%
           select(`country`, `turnout`) %>%
           rename(region = country) -> turnout
-     
+     theme(
+          panel.background = element_rect(fill = "white",
+                                          color = NA),
+          panel.grid = element_line(colour = "royalblue"),
+          axis.text.x = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks = element_blank(),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank()
+     ) -> mt
      if (date < 1994) {
           world <- map_data("world")
           colnames(EG) <- colnames(world)
@@ -94,16 +103,7 @@ eumap = function(date) {
                arrange(`region`) -> all
           mapbig <- inner_join(world, all, by = "region")
           
-          worldmap <- ggplot() + theme(
-               panel.background = element_rect(fill = "white",
-                                               color = NA),
-               panel.grid = element_line(colour = "royalblue"),
-               axis.text.x = element_blank(),
-               axis.text.y = element_blank(),
-               axis.ticks = element_blank(),
-               axis.title.x = element_blank(),
-               axis.title.y = element_blank()
-          )
+          worldmap <- ggplot() + mt
           europe <- worldmap + coord_map(
                "lambert",
                parameters = c(30, 43),
@@ -141,16 +141,7 @@ eumap = function(date) {
           arrange(`region`) -> all
      mapbig <- inner_join(world, all, by = "region")
      
-     worldmap <- ggplot() + theme(
-          panel.background = element_rect(fill = "white",
-                                          color = NA),
-          panel.grid = element_line(colour = "royalblue"),
-          axis.text.x = element_blank(),
-          axis.text.y = element_blank(),
-          axis.ticks = element_blank(),
-          axis.title.x = element_blank(),
-          axis.title.y = element_blank()
-     )
+     worldmap <- ggplot() + mt
      europe <- worldmap + coord_map(
           "lambert",
           parameters = c(30, 43),
@@ -179,7 +170,6 @@ eumap = function(date) {
 }
 
 plots <- list()
-
 for (i in (seq(from = 1979, to = 2014, by = 5))) {
      plots[[(i - 1974) / 5]] <- eumap(i)
 }
@@ -233,7 +223,7 @@ europe <- europe + scale_fill_viridis_c(
      option = "magma",
      direction = -1,
      na.value = "grey70",
-     breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+     breaks = seq(from = 0, to = 100, by = 10),
      guide = guide_colorbar(
           barheight = unit(40, units = "mm"),
           barwidth = unit(1000, units = "mm"),
@@ -245,8 +235,7 @@ europe <- europe + scale_fill_viridis_c(
      )
 )
 
-legend <- get_legend(europe)
-legend <- as_ggplot(legend)
+legend <- as_ggplot(get_legend(europe))
 
 lay <- rbind(c(NA, NA, NA, NA, NA, NA), 
              c(NA, 1, 2, 3, 4, NA), 
@@ -284,6 +273,5 @@ grid.arrange(
 )
 
 dev.off()
-
 
 #curl -f -o eastgermany.zip --url "https://wambachers-osm.website/boundaries/exportBoundaries?cliVersion=1.0&cliKey=6f4b0380-1ef1-4cdf-ae75-0ce88e32e15a&exportFormat=json&exportLayout=levels&exportAreas=water&union=false&selected=62422,62504,1739381,1739376,1739380,62405,1739377,62685,1431517,1739379,62607,62467,62366"
