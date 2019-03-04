@@ -78,8 +78,7 @@ plot <- ggplot(m, aes(x = nms, y = turnout)) +
           panel.grid.major.x = element_line(color = "grey", size = 1.3),
           panel.grid.major.y = element_line(color = "grey", size = 1.3),
           plot.margin = unit(c(4.5, 7.5, 4.5, 7.5), "cm")) +
-     labs(title = "Average weighted turnout as a function of 
-the number of Member states, 1979-2014",
+     labs(title = "Turnout as a function of the number of Member states, 1979-2014",
           caption = "Source: International IDEA. Computed by J. Beley (2019)") +
      ylab("Turnout") +
      xlab("Number of Member states") + 

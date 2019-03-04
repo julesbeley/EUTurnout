@@ -65,7 +65,7 @@ graph <- ggplot(turnout) +
      scale_color_manual(guide = "none", values = "dodgerblue4") +
      scale_x_continuous(limits = c(1970, 2025), breaks = seq(1979, 2014, 5)) +
      scale_y_continuous(limits = c(0,100), labels = c("0%", "25%", "50%", "75%", "100%")) +
-     labs(title = "Average weighted participation in EU elections since 1979",
+     labs(title = "Participation in EU elections since 1979",
           caption = "Source: International IDEA. Computed by J. Beley (2019)") 
 graph
 
