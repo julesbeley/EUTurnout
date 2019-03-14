@@ -20,7 +20,18 @@ turnout %>%
      rename(votingagepop = Voting.age.population) %>%
      rename(population = Population) %>%
      select(`type`, `country`, `year`, `turnout`, `registered`) %>%
-     mutate(`voters` = round(0.01 * `turnout` * `registered`)) -> turnout
+     mutate(`voters` = round(0.01 * `turnout` * `registered`)) %>% 
+     filter(`country` %in% c(
+          "Belgium",
+          "Luxembourg",
+          "Italy",
+          "Germany",
+          "Ireland",
+          "France",
+          "Netherlands",
+          "Denmark",
+          "United Kingdom"
+     )) -> turnout
 
 n <- ggplot(turnout) +
      geom_point(aes(x = year, y = turnout, size = voters, color = type),
@@ -82,10 +93,3 @@ modelNat <- lm(
 )  
 summary(modelEU)
 summary(modelNat)
-
-(1093.53247 - 0.50988 * 1979) -  (1093.53247 - 0.50988 * 2014)
-17.8458
-(1440.8601 - 0.6931 * 1979) -  (1440.8601 - 0.6931 * 2014)
-24.2585
-
-74 + 71 + 195 + 125 + 89 + 95
