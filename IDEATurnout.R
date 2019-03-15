@@ -1,5 +1,6 @@
 rm(list = ls())
 
+library(sf)
 library(tidyverse)
 library(ggpubr)
 library(grid)
@@ -25,33 +26,19 @@ turnout %>%
      rename(population = Population) %>%
      arrange(`year`) -> turnout
 
-library(sf)
-
 eastgermany <- rbind(read_sf("Berlin_AL4.geojson"), 
                      read_sf("Berlin_AL6.geojson"))
 
+
+
 east <- list()
-for (i in (1:dim(eastgermany)[1])) {
-     east[[i]] <- eastgermany[i,] 
-}
+for (i in (1:dim(eastgermany)[1])) east[[i]] <- eastgermany[i,] 
 
 EG1 <- list()
-for (i in (1:length(east))) {
-     try(EG1[[i]] <- as.data.frame(east[[i]]$geometry[[1]][[1]]))
-}
-for (i in (1:length(EG1))) {
-     if (is.null(EG1[[i]])) {
-          try(EG1[[i]] <- as.data.frame(east[[i]]$geometry[[1]][[1]][[1]]))
-     }
-}
-for (i in (1:10)) {
-     for (j in (1:12)) {
-          try(EG1[[i + 12]] <- as.data.frame(east[[j]]$geometry[[1]][[1]][[i]])) 
-     }
-}
-for (i in (1:length(EG1))) {
-     colnames(EG1[[i]]) <- c("x", "y")
-}
+for (i in (1:length(east))) try(EG1[[i]] <- as.data.frame(east[[i]]$geometry[[1]][[1]]), silent = TRUE)
+for (i in (1:length(EG1))) if (is.null(EG1[[i]])) try(EG1[[i]] <- as.data.frame(east[[i]]$geometry[[1]][[1]][[1]]), silent = TRUE)
+for (i in (1:10)) for (j in (1:12)) try(EG1[[i + 12]] <- as.data.frame(east[[j]]$geometry[[1]][[1]][[i]]), silent = TRUE) 
+for (i in (1:length(EG1))) colnames(EG1[[i]]) <- c("x", "y")
 
 EE <- do.call("rbind", EG1)
 
@@ -170,9 +157,7 @@ eumap = function(date) {
 }
 
 plots <- list()
-for (i in (seq(from = 1979, to = 2014, by = 5))) {
-     plots[[(i - 1974) / 5]] <- eumap(i)
-}
+for (i in (seq(from = 1979, to = 2014, by = 5))) plots[[(i - 1974) / 5]] <- eumap(i)
 
 turnout %>%
      filter(`year` %in% 2014) %>%
@@ -235,7 +220,9 @@ europe <- europe + scale_fill_viridis_c(
      )
 )
 
-plots[[9]] <- as_ggplot(get_legend(europe))
+legend <- get_legend(europe)
+legend <- as_ggplot(legend)
+plots[[9]] <- legend
 
 lay <- rbind(c(NA, NA, NA, NA, NA, NA), 
              c(NA, 1, 2, 3, 4, NA), 

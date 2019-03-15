@@ -71,7 +71,7 @@ n <- ggplot(turnout) +
           legend.text = element_text(size = 20),
           legend.key = element_rect(fill = "white")) +
      labs(title = "Turnout in EU and national parliamentary 
-elections with trend lines, 1979-2014",
+elections with trend lines, EU9, 1979-2014",
           caption = "Source: International IDEA. Computed by J. Beley (2019)") +
      ylab("Turnout") +
      scale_y_continuous(breaks = c(25, 50, 75, 100), 
