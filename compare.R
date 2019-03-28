@@ -70,8 +70,8 @@ n <- ggplot(turnout) +
           legend.title = element_text(size = 20),
           legend.text = element_text(size = 20),
           legend.key = element_rect(fill = "white")) +
-     labs(title = "Turnout in EU and national parliamentary 
-elections with trend lines, EU9, 1979-2014",
+     labs(title = "Turnout in EU9 and national parliamentary 
+elections with trend lines, 1979-2014",
           caption = "Source: International IDEA. Computed by J. Beley (2019)") +
      ylab("Turnout") +
      scale_y_continuous(breaks = c(25, 50, 75, 100), 
@@ -92,4 +92,9 @@ modelNat <- lm(
      weights = voters
 )  
 summary(modelEU)
+
+1095.0096-0.5193*1979 - 1095.0096+0.5193*2014
+
 summary(modelNat)
+
+839.67474-0.38146*1979 - 839.67474+0.38146*2014

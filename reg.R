@@ -67,7 +67,7 @@ plot <- ggplot(m, aes(x = nms, y = turnout)) +
                aes(label = year, x = nms, y = turnout - 1)) +
      theme(
           plot.title = element_text(size = 50, hjust = 0.5, vjust = 30),
-          plot.caption = element_text(size = 30, face = 3, vjust = -40),
+          plot.caption = element_text(size = 25, face = 3, vjust = -40),
           axis.text.x = element_text(size = 30, colour = "black"),
           axis.text.y = element_text(size = 30, colour = "black"),
           axis.title.x = element_text(size = 38, colour = "black", vjust = - 25),
