@@ -1,3 +1,3 @@
-# EUTurnout
+# EU Turnout
 
-This repository contains the code and data I am currently using to produce graphs for an article on participation in EU elections.
+This repository contains the source code and data I used to produce graphs for an [article](http://dossiers-bibliotheque.sciencespo.fr/une-vie-politique-europeenne-european-political-life/participation-eu-elections-decreasing) I wrote on participation in EU elections.
